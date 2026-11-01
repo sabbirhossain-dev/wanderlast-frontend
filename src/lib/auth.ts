@@ -16,8 +16,16 @@ export const auth = betterAuth({
 
   //jwt plugin for token-based authentication
   plugins:[
-    jwt()
-  ],
+    jwt(),
+    ],
+    session:{
+        cookieCache:{
+            enabled:true,
+            strategy:"jwt",
+            maxAge: 5*24*60*60, // 5 days
+        }
+    },
+  
 
    emailAndPassword: { 
     enabled: true, 
