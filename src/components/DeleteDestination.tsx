@@ -34,9 +34,12 @@ const DeleteDestination = ({ destinationId }: DeleteDestinationProps) => {
       setIsDeleting(true);
       setError("");
 
-      const res = await fetch(`${API_BASE_URL}/destination/${destinationId}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/destination/${destinationId}`,
+        {
+          method: "DELETE",
+        },
+      );
 
       if (!res.ok) {
         throw new Error("Failed to delete destination");

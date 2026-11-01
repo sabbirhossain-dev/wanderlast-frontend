@@ -67,7 +67,7 @@ const EditDestination = ({ destinationId }: { destinationId: string }) => {
       // console.log("token", token);
 
       const response = await fetch(
-        `http://localhost:5000/destination/${destinationId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/destination/${destinationId}`,
         {
           method: "PATCH",
           headers: {

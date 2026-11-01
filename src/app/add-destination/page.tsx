@@ -43,14 +43,17 @@ function AddDestinationPage() {
     // console.log("token", token);
 
     //api call to backend to add the new destination
-    const putData = await fetch("http://localhost:5000/destinations", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: `Bearer ${token}`, // Include the token in the Authorization header
+    const putData = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/destinations`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+        body: JSON.stringify(addedData),
       },
-      body: JSON.stringify(addedData),
-    });
+    );
 
     const result = await putData.json();
     console.log(result);
