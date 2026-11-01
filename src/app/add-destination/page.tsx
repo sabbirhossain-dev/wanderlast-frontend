@@ -40,7 +40,7 @@ function AddDestinationPage() {
     //get token from authClient
     const { data } = await authClient.token();
     const token = data?.token;
-    console.log("token", token);
+    // console.log("token", token);
 
     //api call to backend to add the new destination
     const putData = await fetch("http://localhost:5000/destinations", {

@@ -64,7 +64,7 @@ const EditDestination = ({ destinationId }: { destinationId: string }) => {
 
       const { data } = await authClient.token();
       const token = data?.token;
-      console.log("token", token);
+      // console.log("token", token);
 
       const response = await fetch(
         `http://localhost:5000/destination/${destinationId}`,
