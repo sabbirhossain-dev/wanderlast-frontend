@@ -7,6 +7,8 @@ import { Eye, EyeOff, Mail, Lock, Loader2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const LogInPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,6 +16,7 @@ const LogInPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const router = useRouter();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -66,6 +69,20 @@ const LogInPage = () => {
         email,
         password,
       });
+
+      // Login API
+      const { data, error } = await authClient.signIn.email({
+        email,
+        password,
+      });
+
+      if (error) {
+        throw new Error(error.message || "Login failed");
+      }
+
+      if (data) {
+        router.push("/");
+      }
 
       // Example:
       // const response = await fetch(`${API_BASE_URL}/login`, {

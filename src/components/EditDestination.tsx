@@ -28,6 +28,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Pencil, Save, X, Loader2 } from "lucide-react";
 import { FieldGroup } from "./ui/field";
 import { useRouter } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 const EditDestination = ({ destinationId }: { destinationId: string }) => {
   const categories = ["Beach", "Mountain", "City", "Adventure", "Cultural"];
 
@@ -48,7 +49,7 @@ const EditDestination = ({ destinationId }: { destinationId: string }) => {
     const formValues = Object.fromEntries(formData.entries());
 
     // Remove empty fields
-    const data = Object.fromEntries(
+    const UpdateData = Object.fromEntries(
       Object.entries({
         ...formValues,
         ...(category ? { category } : {}),
@@ -61,14 +62,19 @@ const EditDestination = ({ destinationId }: { destinationId: string }) => {
     try {
       setIsLoading(true);
 
+      const { data } = await authClient.token();
+      const token = data?.token;
+      console.log("token", token);
+
       const response = await fetch(
         `http://localhost:5000/destination/${destinationId}`,
         {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`, // Include the token in the Authorization header
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(UpdateData),
         },
       );
 

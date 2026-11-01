@@ -7,7 +7,6 @@ import {
   EyeOff,
   User,
   Mail,
-  Phone,
   Lock,
   Loader2,
   ArrowRight,
@@ -16,6 +15,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,10 +24,11 @@ const SignUpPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const router = useRouter();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -38,20 +40,15 @@ const SignUpPage = () => {
     });
   };
 
+  //submit handler
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
 
-    const { name, email, phone, password, confirmPassword } = formData;
+    const { name, email, password, confirmPassword } = formData;
 
     // Empty field validation
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !phone.trim() ||
-      !password ||
-      !confirmPassword
-    ) {
+    if (!name.trim() || !email.trim() || !password || !confirmPassword) {
       setError("Please fill in all fields.");
       return;
     }
@@ -83,18 +80,22 @@ const SignUpPage = () => {
       console.log({
         name,
         email,
-        phone,
         password,
       });
 
-      // Example:
-      // const response = await fetch(`${API_BASE_URL}/signup`, {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ name, email, phone, password }),
-      // });
-
-      // if (!response.ok) throw new Error("Signup failed");
+      const { data, error } = await authClient.signUp.email({
+        name, // user display name
+        email, // user email address
+        password, // user password -> min 8 characters by default
+        // callbackURL: "/", // A URL to redirect to after the user verifies their email (optional)
+      });
+      if (data) {
+        console.log("User signed up successfully:", data);
+        router.push("/"); // Redirect to a verification page after signup
+      }
+      if (error) {
+        console.error("Error signing up:", error);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     } finally {
@@ -205,23 +206,6 @@ const SignUpPage = () => {
                   type="email"
                   placeholder="you@example.com"
                   value={formData.email}
-                  onChange={handleChange}
-                  className={inputClass}
-                />
-              </div>
-            </div>
-
-            {/* Phone */}
-            <div className="space-y-2">
-              <Label htmlFor="phone">Phone Number</Label>
-              <div className="relative">
-                <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="+880 1XXXXXXXXX"
-                  value={formData.phone}
                   onChange={handleChange}
                   className={inputClass}
                 />

@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { authClient } from "@/lib/auth-client";
 
 const categories = ["Beach", "Mountain", "City", "Adventure", "Cultural"];
 
@@ -33,15 +34,22 @@ function AddDestinationPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    console.log("clicked", data);
+    const addedData = Object.fromEntries(formData.entries());
+    console.log("clicked", addedData);
 
+    //get token from authClient
+    const { data } = await authClient.token();
+    const token = data?.token;
+    console.log("token", token);
+
+    //api call to backend to add the new destination
     const putData = await fetch("http://localhost:5000/destinations", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`, // Include the token in the Authorization header
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(addedData),
     });
 
     const result = await putData.json();
