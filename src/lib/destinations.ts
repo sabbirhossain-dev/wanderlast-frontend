@@ -12,6 +12,7 @@ type Destination = {
   description?: string;
   rating?: number;
 };
+// fallback
 
 const FALLBACK_IMAGES = [
   "/assets/destinations/image1.png",
