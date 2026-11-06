@@ -34,6 +34,7 @@ export const auth = betterAuth({
     jwt(),
   ],
 
+  //session cookies
   session: {
     cookieCache: {
       enabled: true,
@@ -42,6 +43,7 @@ export const auth = betterAuth({
     },
   },
 
+  //email and password
   emailAndPassword: {
     enabled: true,
   },
