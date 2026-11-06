@@ -29,7 +29,7 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
-
+//jwt implements
   plugins: [
     jwt(),
   ],
@@ -46,3 +46,5 @@ export const auth = betterAuth({
     enabled: true,
   },
 });
+
+//comment

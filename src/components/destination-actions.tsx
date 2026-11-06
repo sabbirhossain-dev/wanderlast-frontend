@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { API_BASE_URL } from "@/lib/destinations";
 import EditDestination from "./EditDestination";
 import DeleteDestination from "./DeleteDestination";
 
