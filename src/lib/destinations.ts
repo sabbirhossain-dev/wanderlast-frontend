@@ -78,6 +78,7 @@ async function isRenderableImage(url: string): Promise<boolean> {
   return probe;
 }
 
+//function
 function isDynamicUsageError(error: unknown): boolean {
   return error instanceof Error && error.message.includes("Dynamic server usage");
 }
