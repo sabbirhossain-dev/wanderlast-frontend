@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-## A fullstack project
+## A fullstack wanderlast project
 
 First, run the development server:
 
